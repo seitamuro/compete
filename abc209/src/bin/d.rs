@@ -8,8 +8,8 @@ fn main() {
         query: [(usize, usize);q]
     }
 
-    let mut path = vec![vec![];n];
-    let mut cost = vec![vec![];n];
+    let mut path = vec![vec![]; n];
+    let mut cost = vec![vec![]; n];
     let road: Vec<(usize, usize)> = road.into_iter().map(|(x, y)| (x - 1, y - 1)).collect();
     let query: Vec<(usize, usize)> = query.into_iter().map(|(x, y)| (x - 1, y - 1)).collect();
     for (r1, r2) in road.into_iter() {
