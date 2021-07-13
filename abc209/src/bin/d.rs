@@ -1,3 +1,4 @@
+#![allow(dead_code)]
 use proconio::input;
 
 fn main() {
@@ -9,27 +10,43 @@ fn main() {
     }
 
     let mut path = vec![vec![]; n];
-    let mut cost = vec![vec![]; n];
-    let road: Vec<(usize, usize)> = road.into_iter().map(|(x, y)| (x - 1, y - 1)).collect();
-    let query: Vec<(usize, usize)> = query.into_iter().map(|(x, y)| (x - 1, y - 1)).collect();
-    for (r1, r2) in road.into_iter() {
-        path[r1].push(r2);
-        path[r2].push(r1);
-        cost[r1].push(1);
-        cost[r2].push(1);
+    for (i, j) in road.iter() {
+        path[*i-1].push(*j-1);
+        path[*j-1].push(*i-1);
     }
 
-    let mut dist = Vec::new();
-    for i in 0..n {
-        let node: Vec<usize> = (0..n).collect();
-        dist.push(bfs(i, &node, &path));
+    let mut dist = vec![None; n];
+    let mut todo = vec![];
+    dist[0] = Some(0);
+    for i in path[0].iter() {
+        let i = *i;
+        todo.push(i);
+        if dist[i] == None {
+            dist[i] = Some(1);
+        }
     }
 
-    for (from, to) in query.iter() {
-        if dist[*from][*to].unwrap() % 2 == 1 {
-            println!("Road");
-        } else {
+    while !todo.is_empty() {
+        let i = todo.remove(0);
+        let state = match dist[i] {
+            Some(x) => if x == 0 { Some(1) } else { Some(0) },
+            None => panic!("unexpected"),
+        };
+
+        for j in path[i].iter() {
+            let j = *j;
+            if dist[j] == None {
+                dist[j] = state;
+                todo.push(j);
+            }
+        }
+    }
+
+    for (i, j) in query.iter() {
+        if dist[*i-1] == dist[*j-1] {
             println!("Town");
+        } else {
+            println!("Road");
         }
     }
 }
