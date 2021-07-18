@@ -4,7 +4,14 @@ use std::cmp::Ordering;
 use itertools;
 
 fn main() {
-    todo!();
+    input! {
+        a: f64,
+        b: f64,
+    }
+
+    let per = a / 100.;
+
+    println!("{}", per * b);
 }
 
 /// path: path to the other nodes

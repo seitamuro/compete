@@ -4,7 +4,21 @@ use std::cmp::Ordering;
 use itertools;
 
 fn main() {
-    todo!();
+    input! {
+        n: usize,
+        mut a: [usize; n],
+    }
+
+    a.sort_unstable();
+
+    for (i, j) in a.iter().zip(1..=n) {
+        if *i != j {
+            N();
+            return;
+        }
+    }
+
+    Y();
 }
 
 /// path: path to the other nodes

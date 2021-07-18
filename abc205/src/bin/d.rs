@@ -4,7 +4,82 @@ use std::cmp::Ordering;
 use itertools;
 
 fn main() {
-    todo!();
+    input! {
+        n: usize,
+        q: usize,
+        mut a: [u64; n],
+        query: [u64; q],
+    }
+
+    let mut c = vec![];
+    for (i, j) in a.iter().enumerate() {
+        let i = i as u64;
+        let j = *j;
+        c.push(j - i);
+    }
+
+    println!("{:?}", c);
+    println!("{:?}", lower_bound(&c, 2));
+
+    for i in query.into_iter() {
+        if c[a.len() - 1] < i {
+            println!("{}", a[a.len()-1] - c[a.len() - 1] + i);
+        } else {
+            let lower = lower_bound(&a, i).unwrap_or(0);
+            println!("{}", a[lower]
+        }
+    }
+}
+
+fn lower_bound<T: Ord>(list: &[T], value: T) -> Option<usize> {
+    let mut lower = -1i32;
+    let mut higher = list.len() as i32;
+    let h = list.len() as i32 - 1;
+
+    fn w(v: i32, low: i32, high: i32) -> usize {
+        if v < low {
+            return low as usize;
+        } else if v > high {
+            return high as usize;
+        }
+        v as usize
+    }
+
+    while lower != higher && higher - lower > 1 {
+        let m = (higher - lower) / 2 + lower;
+        if list[w(m, 0, h)] < value {
+            lower = m;
+        } else if list[w(m, 0, h)] >= value {
+            higher = m;
+        }
+    }
+
+    if higher >= list.len() as i32 {
+        None
+    } else {
+        Some(higher as usize)
+    }
+}
+
+fn solve(value: u64, a: &[u64]) -> usize {
+    let mut low = 0;
+    let mut high = a.len();
+
+    let mut m = (high - low) / 2 + low;
+    while low != high && m != 0 && m != a.len()-1 {
+        if a[m] == value {
+            return m;
+        }
+
+        if a[m] < value {
+            low = m + 1;
+        } else {
+            high = m - 1;
+        }
+        m = (high - low) / 2 + low;
+    }
+
+    m
 }
 
 /// path: path to the other nodes

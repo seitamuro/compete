@@ -2,57 +2,66 @@
 use proconio::input;
 use std::cmp::Ordering;
 use itertools;
+use std::collections::{HashMap, VecDeque};
+
+struct MyQ {
+    q: VecDeque<usize>,
+    len: usize,
+    memo: HashMap<usize, usize>,
+    count: usize,
+}
+
+impl MyQ {
+    fn new(maxlen: usize) -> Self {
+        Self {
+            q: VecDeque::new(),
+            len: maxlen,
+            memo: HashMap::new(),
+            count: 0,
+        }
+    }
+
+    fn push(&mut self, v: usize) {
+        self.q.push_back(v);
+        self.count += if *self.memo.get(&v).unwrap_or(&0) == 0 {1} else {0};
+        self.memo.insert(v, *self.memo.get(&v).unwrap_or(&0) + 1);
+
+        if self.q.len() > self.len {
+            let k = self.q.pop_front().unwrap();
+            self.memo.insert(k, *self.memo.get(&k).unwrap() - 1);
+            self.count -= if *self.memo.get(&k).unwrap_or(&0) == 0 {1} else {0};
+        }
+    }
+
+    fn ok(&self) -> bool {
+        self.q.len() == self.len
+    }
+
+    fn cnt(&self) -> usize {
+        self.count
+    }
+}
 
 fn main() {
     input! {
-        mut a: i64,
-        mut b: i64,
-        mut c: i64,
+        n: usize,
+        k: usize,
+        c: [usize; n],
     }
 
-    if c % 2 == 1 {
-        c = 3;
-    } else {
-        c = 2;
-    }
-
-    if a.abs() > b.abs() {
-        if a != 0 {
-            a = a / a.abs() * 10;
-        }
-
-        if b != 0 {
-            b = b / b.abs() * 1;
-        }
-    } else if a.abs() < b.abs() {
-        if a != 0 {
-            a = a / a.abs() * 1;
-        }
-
-        if b != 0 {
-            b = b / b.abs() * 10;
-        }
-    } else {
-        if a != 0 {
-            a = a / a.abs();
-        }
-
-        if b != 0 {
-            b = b / b.abs();
+    let mut ans = 0;
+    let mut q = MyQ::new(k);
+    for i in c.iter() {
+        let i = *i;
+        q.push(i);
+        if q.ok() {
+            ans = ans.max(q.cnt());
         }
     }
 
-    let a = a.pow(c as u32);
-    let b = b.pow(c as u32);
-
-    if a < b {
-        println!("<");
-    } else if a > b {
-        println!(">");
-    } else {
-        println!("=");
-    }
+    println!("{}", ans);
 }
+
 
 /// path: path to the other nodes
 /// cost: weight of the path corresponding to each path

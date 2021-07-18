@@ -5,52 +5,19 @@ use itertools;
 
 fn main() {
     input! {
-        mut a: i64,
-        mut b: i64,
-        mut c: i64,
+        _n: usize,
+        s: String,
     }
 
-    if c % 2 == 1 {
-        c = 3;
-    } else {
-        c = 2;
-    }
-
-    if a.abs() > b.abs() {
-        if a != 0 {
-            a = a / a.abs() * 10;
+    for (i, v) in s.chars().enumerate() {
+        if v == '1' {
+            if i % 2 == 0 {
+                println!("Takahashi");
+            } else {
+                println!("Aoki");
+            }
+            return;
         }
-
-        if b != 0 {
-            b = b / b.abs() * 1;
-        }
-    } else if a.abs() < b.abs() {
-        if a != 0 {
-            a = a / a.abs() * 1;
-        }
-
-        if b != 0 {
-            b = b / b.abs() * 10;
-        }
-    } else {
-        if a != 0 {
-            a = a / a.abs();
-        }
-
-        if b != 0 {
-            b = b / b.abs();
-        }
-    }
-
-    let a = a.pow(c as u32);
-    let b = b.pow(c as u32);
-
-    if a < b {
-        println!("<");
-    } else if a > b {
-        println!(">");
-    } else {
-        println!("=");
     }
 }
 
