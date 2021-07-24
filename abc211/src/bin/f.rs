@@ -4,31 +4,7 @@ use std::cmp::Ordering;
 use itertools;
 
 fn main() {
-    input! {
-        n: usize,
-        mut t: [usize; n],
-    }
-
-    let mut g1 = Vec::new();
-    let mut g2 = Vec::new();
-
-    t.sort();
-
-    for (i, v) in t.into_iter().enumerate() {
-        if i%2 == 0 {
-            g1.push(v);
-        } else {
-            g2.push(v);
-        }
-    }
-
-    println!("{:?}", g1);
-    println!("{:?}", g2);
-
-    let s1: usize = g1.into_iter().sum();
-    let s2: usize = g2.into_iter().sum();
-
-    println!("{}", s1.max(s2));
+    todo!();
 }
 
 /// path: path to the other nodes

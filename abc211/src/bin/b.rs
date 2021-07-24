@@ -5,30 +5,31 @@ use itertools;
 
 fn main() {
     input! {
-        n: usize,
-        mut t: [usize; n],
+        s: [String; 4],
     }
 
-    let mut g1 = Vec::new();
-    let mut g2 = Vec::new();
+    let mut b3B = false;
+    let mut bHR = false;
+    let mut b2B = false;
+    let mut bH = false;
 
-    t.sort();
-
-    for (i, v) in t.into_iter().enumerate() {
-        if i%2 == 0 {
-            g1.push(v);
-        } else {
-            g2.push(v);
+    for i in s.iter() {
+        if i.eq("3B") {
+            b3B = true;
+        } else if i.eq("HR") {
+            bHR = true;
+        } else if i.eq("2B") {
+            b2B = true;
+        } else if i.eq("H") {
+            bH = true;
         }
     }
 
-    println!("{:?}", g1);
-    println!("{:?}", g2);
-
-    let s1: usize = g1.into_iter().sum();
-    let s2: usize = g2.into_iter().sum();
-
-    println!("{}", s1.max(s2));
+    if b3B & bHR & b2B & bH {
+        println!("Yes");
+    } else {
+        println!("No");
+    }
 }
 
 /// path: path to the other nodes

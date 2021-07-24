@@ -2,33 +2,49 @@
 use proconio::input;
 use std::cmp::Ordering;
 use itertools;
+use std::collections::VecDeque;
 
 fn main() {
     input! {
         n: usize,
-        mut t: [usize; n],
+        m: usize,
+        mut ab: [(usize, usize); m],
     }
 
-    let mut g1 = Vec::new();
-    let mut g2 = Vec::new();
+    let mut path = vec![vec![]; n];
+    for (a, b) in ab.iter_mut() {
+        *a -= 1;
+        *b -= 1;
+        path[*a].push(*b);
+        path[*b].push(*a);
+    }
 
-    t.sort();
+    let mut todo: VecDeque<usize> = VecDeque::new();
+    let mut dist = vec![None;n];
+    let mut cnt = vec![0u64; n];
+    todo.push_back(0);
+    dist[0] = Some(0);
+    cnt[0] = 1;
+    while !todo.is_empty() {
+        let from = todo.remove(0).unwrap();
+        let d = dist[from].unwrap();
+        for &to in path[from].iter() {
+            if dist[to] == None {
+                dist[to] = Some(d+1);
+                todo.push_back(to);
+            }
 
-    for (i, v) in t.into_iter().enumerate() {
-        if i%2 == 0 {
-            g1.push(v);
-        } else {
-            g2.push(v);
+            let d2 = dist[to].unwrap();
+            if d2 > d {
+                cnt[to] += cnt[from];
+            }
         }
     }
 
-    println!("{:?}", g1);
-    println!("{:?}", g2);
+    //println!("{:?}", dist);
+    //println!("{:?}", cnt);
 
-    let s1: usize = g1.into_iter().sum();
-    let s2: usize = g2.into_iter().sum();
-
-    println!("{}", s1.max(s2));
+    println!("{}", cnt[n-1] % 1_000_000_007);
 }
 
 /// path: path to the other nodes
