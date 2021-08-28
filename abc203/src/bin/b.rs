@@ -3,15 +3,15 @@ use proconio::{input, fastout};
 #[fastout]
 fn main() {
     input! {
-        n: u64,
+        n: usize,
+        k: usize,
     }
 
-    let mut r = n / 2;
     let mut ans = 0;
-    while r != 0 {
-        ans += 1;
-        r /= 2;
+    for i in 1..=n {
+        for j in 1..=k {
+            ans += 100 * i + j;
+        }
     }
-
     println!("{}", ans);
 }

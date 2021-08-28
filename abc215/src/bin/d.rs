@@ -3,8 +3,6 @@ use std::collections::VecDeque;
 
 #[fastout]
 fn main() {
-
-    println!("comp");
     input! {
         n: usize,
         m: usize,
@@ -12,12 +10,10 @@ fn main() {
     }
 
     
-    println!("comp");
     let mut nums = VecDeque::new();
     for i in 2..=m {
         nums.push_back(i);
     }
-    println!("comp");
 
     let mut primes = VecDeque::new();
     while !nums.is_empty() {
@@ -26,7 +22,6 @@ fn main() {
         nums = nums.into_iter().filter(|x| x % d != 0).collect();
     }
 
-    println!("comp");
     let mut rl = Vec::new();
     while !primes.is_empty() {
         let p = primes.remove(0).unwrap();
@@ -37,9 +32,6 @@ fn main() {
             }
         }
     }
-
-    println!("comp");
-    return;
 
     let mut ans = VecDeque::new();
     for i in 1..=m {
