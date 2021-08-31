@@ -11,11 +11,11 @@
             "cargo": {
                 "args": [
                     "build",
-                    "--bin=d",
+                    "--bin=e",
                     "--package=abc216"
                 ],
                 "filter": {
-                    "name": "d",
+                    "name": "e",
                     "kind": "bin"
                 }
             },

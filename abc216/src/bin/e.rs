@@ -4,31 +4,35 @@ use proconio::{input, fastout};
 fn main() {
     input! {
         n: usize,
-        k: usize,
-        mut a: [usize; n],
+        mut k: u64,
+        mut a: [u64; n],
     }
 
+    a.push(0);
     a.sort();
-    let mut b = 0;
-    let mut ind = 1;
-    let mut prev_v;
-    prev_v = a[0];
-    for (i,v) in a.iter().enumerate().skip(1) {
-        b += v - prev_v;
-        ind = i + 1;
-        prev_v = *v;
-        if b >= k {
+    let mut prev_v = a[a.len()-1];
+    let mut ans = 0;
+
+    for (i, v) in a.iter().rev().enumerate().skip(1) {
+        let i = i as u64;
+        let diff = prev_v - v;
+
+        let cnt = diff * i;
+        if cnt <= k {
+            ans += diff * (prev_v + v+1) / 2 * i;
+            k -= cnt;
+        } else {
+            ans += k/i * (prev_v + prev_v - k/i+1) / 2 * i;
+            ans += k%i * (prev_v - k/i);
             break;
         }
-    }
 
-    let mut ans = 0;
-    if ind > 0 {
-        let ind = ind-1;
-        ans += a[ind-1] * b * ind - (b-1)*b/2*(k/ind)-k/ind*(k%ind);
+        if k == 0 {
+            break;
+        }
+
+        prev_v = *v;
     }
-    let b = b-1;
-    ans += a[ind-1] * (k-b) *ind- (b-1)*b/2*(k/ind)-k/ind*(k%ind);
 
     println!("{}", ans);
 }
