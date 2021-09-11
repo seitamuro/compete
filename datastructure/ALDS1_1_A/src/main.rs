@@ -23,9 +23,16 @@ fn main() {
             }
         }
 
-        for j in numbers.iter() {
-            print!("{} ", j);
+        if i != 0 {
+            println!("");
         }
-        println!("");
+
+        for (ind, j) in numbers.iter().enumerate() {
+            if ind == 0 {
+                print!("{}", j);
+            } else {
+                print!(" {}", j);
+            }
+        }
     }
 }
