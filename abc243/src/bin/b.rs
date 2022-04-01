@@ -15,14 +15,17 @@ fn main() {
     for (i, j) in a.iter().zip(b.iter()) {
         if i == j {
             cnt1 += 1;
-        }
+        } else {
+            if map.contains_key(i) {
+                cnt2 += 1;
+            }
+            map.entry(i).or_insert("");
 
-        if map.contains_key(i) || map.contains_key(j) {
-            cnt2 += 1;
+            if map.contains_key(j) {
+                cnt2 += 1;
+            }
+            map.entry(j).or_insert("");
         }
-
-        map.entry(i).or_insert("");
-        map.entry(j).or_insert("");
     }
 
     println!("{}\n{}", cnt1, cnt2);
