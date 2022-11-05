@@ -7,14 +7,24 @@ use std::collections::{HashMap, HashSet, VecDeque};
 #[allow(unused_imports)]
 use std::f64::consts::PI;
 
+fn f(n: u64, memo: &mut HashMap<u64, u64>) -> u64 {
+    if n == 0 {
+        return 1;
+    }
+
+    if memo.entry(n).or_insert(0) == &mut 0u64 {
+        let v = f(n/2, memo) + f(n/3, memo);
+        memo.insert(n, v);
+    }
+
+    *memo.get(&n).unwrap()
+}
 fn main() {
     proconio::input! {
-        n: usize,
-        m: usize,
-        a: [[i32; n]; m],
-        string: String,
-        chars: proconio::marker::Chars,
-        bytes: proconio::marker::Bytes,
+        n: u64,
     }
-    todo!();
+
+    let mut memo: HashMap<u64, u64> = HashMap::new();
+
+    println!("{}", f(n, &mut memo));
 }
